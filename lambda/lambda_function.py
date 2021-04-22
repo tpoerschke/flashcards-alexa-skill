@@ -73,7 +73,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         category = handler_input.request_envelope.request.intent.slots["category_name"].value
-
+        logger.info(category)
         speak_output = "Diese Kategorie kann ich nicht finden"
 
         if category in list(map(lambda cat: cat["title"].lower(), categories)):
