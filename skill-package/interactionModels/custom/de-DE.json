@@ -30,10 +30,55 @@
             "Teste mich",
             "Starte einen Test"
           ]
+        },
+        {
+          "name": "CaptureCategoryIntent",
+          "slots": [
+            {
+              "name": "category_name",
+              "type": "AMAZON.SearchQuery",
+              "samples": [
+                "{category_name}"
+              ]
+            }
+          ],
+          "samples": []
         }
       ],
       "types": []
-    }
+    },
+    "dialog": {
+      "intents": [
+        {
+          "name": "CaptureCategoryIntent",
+          "confirmationRequired": false,
+          "prompts": {},
+          "slots": [
+            {
+              "name": "category_name",
+              "type": "AMAZON.SearchQuery",
+              "elicitationRequired": true,
+              "confirmationRequired": false,
+              "prompts": {
+                "elicitation": "Elicit.Slot.586689376196.564895777976"
+              }
+            }
+          ]
+        }
+      ],
+      "delegationStrategy": "ALWAYS"
+    },
+    "prompts": [
+      {
+        "id": "Elicit.Slot.586689376196.564895777976",
+        "variations": [
+          {
+            "type": "PlainText",
+            "value": "Welche Kategorie meinstest du?"
+          }
+        ]
+      }
+    ]
   },
-  "version": "3"
+  "version": "5"
 }
