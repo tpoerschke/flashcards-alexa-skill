@@ -55,11 +55,11 @@ class StartTestIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "In welcher Kategorie soll ich dich abfragen?"
+        speak_output = "Okay, in welcher Kategorie soll ich dich abfragen?"
 
         return (
             handler_input.response_builder
-                .speak("Okay!")
+                .speak(speak_output)
                 .ask(speak_output)
                 .response
         )
@@ -76,7 +76,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
         return (
             handler_input.response_builder
-                .speak("JO!")
+                .speak("Ok")
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
         )
