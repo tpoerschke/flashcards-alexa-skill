@@ -55,10 +55,11 @@ class StartTestIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        speak_output = "Okay, in welcher Kategorie soll ich dich abfragen?"
+        speak_output = "In welcher Kategorie soll ich dich abfragen?"
 
         return (
             handler_input.response_builder
+                .speak("Okay!")
                 .ask(speak_output)
                 .response
         )
