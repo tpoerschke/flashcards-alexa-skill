@@ -38,7 +38,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
         speak_output = "Willkommen zu Flashcard. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
-        logger.info(response.json())
+        if response.ok:
+            categories = response.json()
 
         return (
             handler_input.response_builder
