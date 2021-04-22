@@ -24,18 +24,16 @@
           "samples": []
         },
         {
-          "name": "HelloWorldIntent",
+          "name": "StartTestIntent",
           "slots": [],
           "samples": [
-            "hallo",
-            "wie geht\u0027s dir",
-            "sag hallo welt",
-            "sag hallo"
+            "Teste mich",
+            "Starte einen Test"
           ]
         }
       ],
       "types": []
     }
   },
-  "version": "2"
+  "version": "3"
 }
