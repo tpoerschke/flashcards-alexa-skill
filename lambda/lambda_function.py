@@ -34,6 +34,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input):
+        global categories
         # type: (HandlerInput) -> Response
         speak_output = "Willkommen zu Flashcard. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
