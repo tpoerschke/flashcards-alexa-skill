@@ -77,7 +77,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         speak_output = "Diese Kategorie kann ich nicht finden".
         
         if category in list(map(lambda cat: cat["title"].lower())):
-            speak_output = f"Alles klar, ich werde dich in der Kategorie {category} testen."
+            speak_output = "Alles klar, ich werde dich in der Kategorie {category} testen."
 
         return (
             handler_input.response_builder
