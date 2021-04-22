@@ -25,7 +25,7 @@ USER_NAME = "timpo"
 USER_PASS = "timpo"
 USER_ID = 1
 
-categories = {}
+categories = []
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -72,11 +72,16 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
-        #speak_output = handler_input.request_envelope.request.slots.category_name.value
+        category = handler_input.request_envelope.request.intent.slots["category_name"].value
+        
+        speak_output = "Diese Kategorie kann ich nicht finden".
+        
+        if category in list(map(lambda cat: cat["title"].lower())):
+            speak_output = f"Alles klar, ich werde dich in der Kategorie {category} testen."
 
         return (
             handler_input.response_builder
-                .speak("Ok")
+                .speak(speak_output)
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
         )
