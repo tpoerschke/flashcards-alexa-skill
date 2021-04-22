@@ -18,7 +18,7 @@ from ask_sdk_model import Response
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-BACKEND_BASE_URL = "http://581f9e4017d1.ngrok.io"
+BACKEND_BASE_URL = "http://02595aeb1338.ngrok.io"
 CATEGORIES_BY_USER = "/users/{uid}/categories"
 
 USER_NAME = "timpo"
