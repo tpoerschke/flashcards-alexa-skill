@@ -89,7 +89,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
         for category in categories:
             if category["title"].lower() == category_slot:
-                speak_output = "Alles klar, ich werde dich in der Kategorie " + category + " testen. Los geht's"
+                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's"
                 response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
