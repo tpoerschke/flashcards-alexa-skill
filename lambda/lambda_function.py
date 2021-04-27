@@ -6,8 +6,9 @@
 # This sample is built using the handler classes approach in skill builder.
 import logging
 import requests
-import ask_sdk_core.utils as ask_utils
+import yaml
 
+import ask_sdk_core.utils as ask_utils
 from ask_sdk_core.skill_builder import SkillBuilder
 from ask_sdk_core.dispatch_components import AbstractRequestHandler
 from ask_sdk_core.dispatch_components import AbstractExceptionHandler
@@ -18,14 +19,20 @@ from ask_sdk_model import Response
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-BACKEND_BASE_URL = "http://02595aeb1338.ngrok.io"
+CONFIG = yaml.load(open("config.yml", "r"))
+
+BACKEND_BASE_URL = CONFIG["base_url"]
 CATEGORIES_BY_USER = "/users/{uid}/categories"
+FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 
 USER_NAME = "timpo"
 USER_PASS = "timpo"
-USER_ID = 1
+USER_ID = 3
+
+GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut."
 
 categories = []
+flashcards = []
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
@@ -36,11 +43,13 @@ class LaunchRequestHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global categories
         # type: (HandlerInput) -> Response
-        speak_output = "Willkommen zu Flashcard. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
+        speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
             categories = response.json()
+        else:
+            return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
 
         return (
             handler_input.response_builder
@@ -73,12 +82,19 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("CaptureCategoryIntent")(handler_input)
 
     def handle(self, handler_input):
+        global flashcards
         # type: (HandlerInput) -> Response
-        category = handler_input.request_envelope.request.intent.slots["category_name"].value
-        logger.info(category)
-        speak_output = "Diese Kategorie kann ich nicht finden"
+        category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
+        speak_output = "Diese Kategorie kann ich nicht finden."
 
-        if category in list(map(lambda cat: cat["title"].lower(), categories)): speak_output = "Alles klar, ich werde dich in der Kategorie " + category + " testen. Los geht's"
+        for category in categories:
+            if category["title"].lower() == category_slot:
+                speak_output = "Alles klar, ich werde dich in der Kategorie " + category + " testen. Los geht's"
+                response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
+                if not response.ok:
+                    return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
+                flashcards = response.json()    
+                break
 
         return (
             handler_input.response_builder

@@ -26,10 +26,7 @@
         {
           "name": "StartTestIntent",
           "slots": [],
-          "samples": [
-            "Teste mich",
-            "Starte einen Test"
-          ]
+          "samples": []
         },
         {
           "name": "CaptureCategoryIntent",
@@ -38,11 +35,14 @@
               "name": "category_name",
               "type": "AMAZON.SearchQuery",
               "samples": [
-                "{category_name}"
+                "{category_name}",
+                "Kategorie {category_name}"
               ]
             }
           ],
-          "samples": []
+          "samples": [
+            "Starte einen Test"
+          ]
         }
       ],
       "types": []
@@ -74,11 +74,11 @@
         "variations": [
           {
             "type": "PlainText",
-            "value": "Welche Kategorie meinstest du?"
+            "value": "In welcher Kategorie soll ich dich prüfen?"
           }
         ]
       }
     ]
   },
-  "version": "5"
+  "version": "8"
 }
