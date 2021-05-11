@@ -107,7 +107,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         )
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
-    """Handler for Hello World Intent."""
+    """Handler zum Umdrehen einer Karte."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         return ask_utils.is_intent_name("ShowCardBackIntent")(handler_input)
