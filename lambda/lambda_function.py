@@ -33,6 +33,7 @@ GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuch
 
 categories = []
 flashcards = []
+current_card = 0
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
