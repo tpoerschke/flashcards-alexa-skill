@@ -110,7 +110,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
-        speak_output += " Hier kommt die erste Frage: " + flashcards[current_card].front
+        speak_output += " Hier kommt die erste Frage: " + flashcards[current_card]["front"]
         return speak_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
@@ -122,14 +122,14 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global current_card, test_started
         # type: (HandlerInput) -> Response
-        speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card].back
+        speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
         current_card += 1
         
         if current_card >= len(flashcards):
             speak_output += "Das war die letzte Frage. Bis dann."
             test_started = False
         else:
-            speak_output += "Die nächste Frage lautet: " + flashcards[current_card].back
+            speak_output += "Die nächste Frage lautet: " + flashcards[current_card]["front"]
 
         return (
             handler_input.response_builder
