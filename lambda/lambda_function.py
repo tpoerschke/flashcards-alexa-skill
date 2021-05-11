@@ -110,6 +110,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
+        speak_output += " Hier kommt die erste Frage: " + flashcards[0].front
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
     """Handler zum Umdrehen einer Karte."""
