@@ -110,7 +110,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
-        speak_output += " Hier kommt die erste Frage: " + flashcards[0].front
+        speak_output += " Hier kommt die erste Frage: " + flashcards[current_card].front
         return speak_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
@@ -122,17 +122,8 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global current_card, test_started
         # type: (HandlerInput) -> Response
-        category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
-        speak_output = "Diese Kategorie kann ich nicht finden."
-
-        for category in categories:
-            if category["title"].lower() == category_slot:
-                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's"
-                response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
-                if not response.ok:
-                    return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
-                flashcards = response.json()    
-                break
+        speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card].back
+        current_card += 1
 
         return (
             handler_input.response_builder
