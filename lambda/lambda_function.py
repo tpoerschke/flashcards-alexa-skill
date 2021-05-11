@@ -124,6 +124,10 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card].back
         current_card += 1
+        
+        if current_card >= len(flashcards):
+            speak_output += "Das war die letzte Frage. Bis dann."
+            test_started = False
 
         return (
             handler_input.response_builder
