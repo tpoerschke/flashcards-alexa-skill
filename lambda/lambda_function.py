@@ -91,7 +91,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
         for category in categories:
             if category["title"].lower() == category_slot:
-                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's"
+                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's."
                 response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
@@ -106,9 +106,10 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 .response
         )
     
-    def __start_test(self, speak_output)
+    def __start_test(self, speak_output):
         global test_started, current_card
-        
+        current_card = 0
+        test_started = True
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
     """Handler zum Umdrehen einer Karte."""
