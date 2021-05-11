@@ -83,6 +83,35 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         global flashcards
+        global current_card
+        # type: (HandlerInput) -> Response
+        category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
+        speak_output = "Diese Kategorie kann ich nicht finden."
+
+        for category in categories:
+            if category["title"].lower() == category_slot:
+                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's"
+                response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
+                if not response.ok:
+                    return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
+                flashcards = response.json()    
+                break
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                # .ask("add a reprompt if you want to keep the session open for the user to respond")
+                .response
+        )
+
+class ShowCardBackIntentHandler(AbstractRequestHandler):
+    """Handler for Hello World Intent."""
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("ShowCardBackIntent")(handler_input)
+
+    def handle(self, handler_input):
+        global flashcards
         # type: (HandlerInput) -> Response
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
