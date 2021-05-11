@@ -94,12 +94,15 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
             # Daher muss hier eine komplexe Abfrage her
             user_input_is_category = all(map(lambda part: True if part in category["title"].lower() else False, category_slot.split(" ")))
             if user_input_is_category:
-                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen. Los geht's."
+                speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen."
                 response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
                 flashcards = response.json()   
-                speak_output = self.__start_test(speak_output);
+                if len(flashcards) == 0:
+                    speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
+                else:
+                    speak_output = self.__start_test(speak_output);
                 break
 
         return (
@@ -113,7 +116,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
-        speak_output += " Hier kommt die erste Frage: " + flashcards[current_card]["front"]
+        speak_output += " Los geht's. Hier kommt die erste Frage: " + flashcards[current_card]["front"]
         return speak_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
