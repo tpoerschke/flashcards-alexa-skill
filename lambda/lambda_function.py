@@ -92,7 +92,8 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         for category in categories:
             # Alexa versteht anstatt "Webtechnologien" meist " Web technologien"...
             # Daher muss hier eine komplexe Abfrage her
-            user_input_is_category = all(map(lambda part: True if part in category["title"].lower() else False, category_slot.split(" ")))
+            cat_title = category["title"].lower()
+            user_input_is_category = all(map(lambda part: True if part in cat_title else False, category_slot.split()))
             if user_input_is_category:
                 speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen."
                 response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
