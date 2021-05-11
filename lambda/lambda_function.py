@@ -95,7 +95,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
             cat_title = category["title"].lower()
             logger.info("Überprüfte Kategorie:", cat_title)
             logger.info("Erkannte Kategorie:", category_slot)
-            logger.info("Mapping:", map(lambda part: True if part in cat_title else False, category_slot.split()))
+            logger.info("Mapping:", list(map(lambda part: True if part in cat_title else False, category_slot.split())))
             user_input_is_category = all(map(lambda part: True if part in cat_title else False, category_slot.split()))
             if user_input_is_category:
                 speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen."
