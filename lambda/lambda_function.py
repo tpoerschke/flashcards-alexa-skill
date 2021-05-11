@@ -111,15 +111,16 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         current_card = 0
         test_started = True
         speak_output += " Hier kommt die erste Frage: " + flashcards[0].front
+        return speak_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
     """Handler zum Umdrehen einer Karte."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
-        return ask_utils.is_intent_name("ShowCardBackIntent")(handler_input)
+        return ask_utils.is_intent_name("ShowCardBackIntent")(handler_input) && test_started
 
     def handle(self, handler_input):
-        global current_card
+        global current_card, test_started
         # type: (HandlerInput) -> Response
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
