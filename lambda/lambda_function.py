@@ -86,6 +86,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global flashcards
         global current_card
+        global test_started
         # type: (HandlerInput) -> Response
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
