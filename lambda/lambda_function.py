@@ -85,8 +85,6 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
     def handle(self, handler_input):
         global flashcards
-        global current_card
-        global test_started
         # type: (HandlerInput) -> Response
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
@@ -98,7 +96,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
                 flashcards = response.json()   
-                current_card = 0
+                speak_output = self.__start_test(speak_output);
                 break
 
         return (
@@ -107,6 +105,10 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 # .ask("add a reprompt if you want to keep the session open for the user to respond")
                 .response
         )
+    
+    def __start_test(self, speak_output)
+        global test_started, current_card
+        
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
     """Handler zum Umdrehen einer Karte."""
