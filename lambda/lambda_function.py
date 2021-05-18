@@ -27,7 +27,7 @@ FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 
 USER_NAME = "timpo"
 USER_PASS = "timpo"
-USER_ID = 3
+USER_ID = 4
 
 GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut."
 
