@@ -132,6 +132,7 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         global current_card, test_started
         # type: (HandlerInput) -> Response
+        ask_output = ""
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
         current_card += 1
         
@@ -140,6 +141,7 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
             test_started = False
         else:
             speak_output += "Die nächste Frage lautet: " + flashcards[current_card]["front"]
+            ask_output += flashcards[current_card]["front"]
         
         response_builder = handler_input.response_builder.speak(speak_output)
         if test_started:
