@@ -140,7 +140,13 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
             test_started = False
         else:
             speak_output += "Die nächste Frage lautet: " + flashcards[current_card]["front"]
-
+        
+        response_builder = handler_input.response_builder.speak(speak_output)
+        if test_started:
+            response_builder = response_builder.ask(speak_output)
+        else:
+            
+        
         return (
             handler_input.response_builder
                 .speak(speak_output)
