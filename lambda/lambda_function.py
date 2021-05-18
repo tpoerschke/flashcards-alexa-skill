@@ -111,7 +111,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
         response_builder = handler_input.response_builder.speak(speak_output)
         if test_started:
-            response_builder = response_builder.ask(speak_output)
+            response_builder = response_builder.ask(ask_output)
 
         return response_builder.response
     
