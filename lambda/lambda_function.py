@@ -106,7 +106,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 if len(flashcards) == 0:
                     speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
                 else:
-                    ask_output = self.__start_test();
+                    ask_output = self.__start_test(speak_output);
                 break
 
         response_builder = handler_input.response_builder.speak(speak_output)
@@ -119,8 +119,9 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
-        speak_output += " Los geht's. Hier kommt die erste Frage: " + flashcards[current_card]["front"]
-        return speak_output
+        speak_output += " Los geht's. Hier kommt die erste Frage: "
+        ask_output = flashcards[current_card]["front"]
+        return speak_output, ask_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
     """Handler zum Umdrehen einer Karte."""
