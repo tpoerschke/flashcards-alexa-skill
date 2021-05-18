@@ -106,7 +106,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 if len(flashcards) == 0:
                     speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
                 else:
-                    speak_output = self.__start_test(speak_output);
+                    ask_output = self.__start_test();
                 break
 
         response_builder = handler_input.response_builder.speak(speak_output)
