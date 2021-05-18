@@ -119,7 +119,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         global test_started, current_card
         current_card = 0
         test_started = True
-        speak_output += " Los geht's. Hier kommt die erste Frage: "
+        speak_output += " Los geht's. Hier kommt die erste Frage: " + flashcards[current_card]["front"]
         ask_output = flashcards[current_card]["front"]
         return speak_output, ask_output
 
