@@ -1,5 +1,6 @@
 
 def init_session_attributes_for_user(session, user_id):
+    session.attributes = dict()
     session.attributes["user_id"] = user_id
     session.attributes["categories"] = []
     session.attributes["flashcards"] = []
