@@ -50,7 +50,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user_id"]))
         if response.ok:
-            categories = response.json()
+            session_attr["categories"] = response.json()
         else:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
 
@@ -85,11 +85,11 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("CaptureCategoryIntent")(handler_input)
 
     def handle(self, handler_input):
-        global flashcards
         # type: (HandlerInput) -> Response
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
-
+        
+        
         for category in categories:
             # Alexa versteht anstatt "Webtechnologien" meist " Web technologien"...
             # Daher muss hier eine komplexe Abfrage her
