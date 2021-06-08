@@ -142,7 +142,7 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
         
         if current_card >= len(flashcards):
             speak_output += "Das war die letzte Frage. Bis dann."
-            test_started = False
+            session.attributes["test_started"] = False
         else:
             speak_output += "Die nächste Frage lautet: " + flashcards[current_card]["front"]
             ask_output += flashcards[current_card]["front"]
