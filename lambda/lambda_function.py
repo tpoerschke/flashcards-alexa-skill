@@ -134,11 +134,13 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         session = get_session(handler_input)
+        flashcards = session.attributes["flashcards"]
+        
         ask_output = ""
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
-        current_card += 1
+        session.attributes["current_card"] += 1
         
-        if current_card >= len(session.attributes["flashcards"]):
+        if current_card >= len(flashcards):
             speak_output += "Das war die letzte Frage. Bis dann."
             test_started = False
         else:
