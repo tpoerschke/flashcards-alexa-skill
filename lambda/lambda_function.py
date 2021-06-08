@@ -38,14 +38,16 @@ test_started = False
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
-    def can_handle(self, handler_input):
+    def can_handle(self, handler_input: HandlerInput):
         # type: (HandlerInput) -> bool
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
-    def handle(self, handler_input):
+    def handle(self, handler_input: HandlerInput):
         global categories
         # type: (HandlerInput) -> Response
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
+
+        logger.info("SESSION->USER: " + handler_input.request_envelope["session"]["user"])
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
