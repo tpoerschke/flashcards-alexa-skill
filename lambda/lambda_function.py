@@ -101,7 +101,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
             user_input_is_category = all(map(lambda part: True if part in cat_title else False, category_slot.split()))
             if user_input_is_category:
                 speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen."
-                response = do_get_request(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
+                response = do_get_request(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]), session)
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
                 session.attributes["flashcards"] = response.json()   
