@@ -89,7 +89,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         category_slot = handler_input.request_envelope.request.intent.slots["category_name"].value
         speak_output = "Diese Kategorie kann ich nicht finden."
         
-        
+        session = get_session(handler_input)
         for category in categories:
             # Alexa versteht anstatt "Webtechnologien" meist " Web technologien"...
             # Daher muss hier eine komplexe Abfrage her
