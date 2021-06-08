@@ -46,9 +46,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
         # type: (HandlerInput) -> Response
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
-        logger.info("access_token: " + handler_input.request_envelope.session.user.access_token)
-        
-        
+        # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
+        header = {'Authorization': 'Bearer ' + handler_input.request_envelope.session.user.access_token}
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
