@@ -39,7 +39,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
         session = get_session(handler_input)
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
-        response = do_get_request(BACKEND_BASE_URL + USER_ID_FOR_TOKEN)
+        response = do_get_request(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, session)
         if not response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
