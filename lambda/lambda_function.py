@@ -21,12 +21,10 @@ logger.setLevel(logging.INFO)
 
 CONFIG = yaml.load(open("config.yml", "r"))
 
-BACKEND_BASE_URL = CONFIG["base_url"]
+BACKEND_BASE_URL = https://c308d87f8482.ngrok.io
 CATEGORIES_BY_USER = "/users/{uid}/categories"
 FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 
-USER_NAME = "timpo"
-USER_PASS = "timpo"
 USER_ID = 4
 
 GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut."
@@ -49,6 +47,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
         logger.info("access_token: " + handler_input.request_envelope.session.user.access_token)
+        
+        
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
