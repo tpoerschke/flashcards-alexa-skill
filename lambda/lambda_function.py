@@ -121,8 +121,8 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
     def __start_test(self, speak_output, session_attr):
         session_attr["current_card"] = 0
         session_attr["test_started"] = True
-        speak_output += " Los geht's. Hier kommt die erste Frage: " + session_attr["flashcards"][current_card]["front"]
-        ask_output = session_attr["flashcards"][current_card]["front"]
+        speak_output += " Los geht's. Hier kommt die erste Frage: " + session_attr["flashcards"][session_attr["current_card"]]["front"]
+        ask_output = session_attr["flashcards"][session_attr["current_card"]]["front"]
         return speak_output, ask_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
@@ -136,10 +136,12 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
         session = get_session(handler_input)
         session_attr = get_session_attr(handler_input)
         flashcards = session_attr["flashcards"]
+        current_card = session_attr["current_card"]
         
         ask_output = ""
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
         session_attr["current_card"] += 1
+        current_card = session_attr["current_card"]
         
         if current_card >= len(flashcards):
             speak_output += "Das war die letzte Frage. Bis dann."
