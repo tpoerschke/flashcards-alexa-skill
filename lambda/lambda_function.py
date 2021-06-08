@@ -90,6 +90,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         speak_output = "Diese Kategorie kann ich nicht finden."
         
         session = get_session(handler_input)
+        categories = session.attributes["categories"]
         for category in categories:
             # Alexa versteht anstatt "Webtechnologien" meist " Web technologien"...
             # Daher muss hier eine komplexe Abfrage her
