@@ -108,19 +108,19 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 if len(flashcards) == 0:
                     speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
                 else:
-                    speak_output, ask_output = self.__start_test(speak_output);
+                    speak_output, ask_output = self.__start_test(speak_output, session);
                 break
 
         response_builder = handler_input.response_builder.speak(speak_output)
-        if test_started:
+        if session.attributes["test_started"]:
             response_builder = response_builder.ask(ask_output)
 
         return response_builder.response
     
     def __start_test(self, speak_output, session):
-        global test_started, current_card
-        current_card = 0
-        test_started = True
+        session_attr = session.attributes
+        session_attr["current_card"] = 0
+        session_attr["test_started"] = True
         speak_output += " Los geht's. Hier kommt die erste Frage: " + flashcards[current_card]["front"]
         ask_output = flashcards[current_card]["front"]
         return speak_output, ask_output
