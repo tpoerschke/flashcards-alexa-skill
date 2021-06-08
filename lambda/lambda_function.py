@@ -16,7 +16,7 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
-from utils import init_session_attributes_fot_user
+from .utils import init_session_attributes_fot_user
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
