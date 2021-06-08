@@ -16,7 +16,7 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
-from utils import init_session_attributes_for_user, get_session, do_get_request
+from utils import init_session_attributes_for_user, get_session, get_session_attr, do_get_request
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -36,16 +36,16 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input: HandlerInput):
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
-
         session = get_session(handler_input)
+        
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
         response = do_get_request(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, session)
         if not response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
-            
+        
         user_id = response.json()["user_id"]
-        init_session_attributes_for_user(session, user_id)
-        session_attr = session.attributes
+        session_attr = get_session_attr(handler_input)
+        init_session_attributes_for_user(session_attr, user_id)
         logger.info("SESSION_ATTR: " + str(session_attr))
         
         response = do_get_request(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user_id"]), session)
@@ -90,7 +90,8 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         speak_output = "Diese Kategorie kann ich nicht finden."
         
         session = get_session(handler_input)
-        categories = session.attributes["categories"]
+        session_attr = get_session_attr(handler_input)
+        categories = session_attr["categories"]
         for category in categories:
             # Alexa versteht anstatt "Webtechnologien" meist " Web technologien"...
             # Daher muss hier eine komplexe Abfrage her
@@ -104,25 +105,24 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 response = do_get_request(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]), session)
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
-                session.attributes["flashcards"] = response.json()   
+                session_attr["flashcards"] = response.json()   
                 if len(flashcards) == 0:
                     speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
                 else:
-                    speak_output, ask_output = self.__start_test(speak_output, session);
+                    speak_output, ask_output = self.__start_test(speak_output, session_attr);
                 break
 
         response_builder = handler_input.response_builder.speak(speak_output)
-        if session.attributes["test_started"]:
+        if session_attr["test_started"]:
             response_builder = response_builder.ask(ask_output)
 
         return response_builder.response
     
-    def __start_test(self, speak_output, session):
-        session_attr = session.attributes
+    def __start_test(self, speak_output, session_attr):
         session_attr["current_card"] = 0
         session_attr["test_started"] = True
-        speak_output += " Los geht's. Hier kommt die erste Frage: " + session.attributes["flashcards"][current_card]["front"]
-        ask_output = session.attributes["flashcards"][current_card]["front"]
+        speak_output += " Los geht's. Hier kommt die erste Frage: " + session_attr["flashcards"][current_card]["front"]
+        ask_output = session_attr["flashcards"][current_card]["front"]
         return speak_output, ask_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
@@ -134,15 +134,16 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
     def handle(self, handler_input):
         # type: (HandlerInput) -> Response
         session = get_session(handler_input)
-        flashcards = session.attributes["flashcards"]
+        session_attr = get_session_attr(handler_input)
+        flashcards = session_attr["flashcards"]
         
         ask_output = ""
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
-        session.attributes["current_card"] += 1
+        session_attr["current_card"] += 1
         
         if current_card >= len(flashcards):
             speak_output += "Das war die letzte Frage. Bis dann."
-            session.attributes["test_started"] = False
+            session_attr["test_started"] = False
         else:
             speak_output += "Die nächste Frage lautet: " + flashcards[current_card]["front"]
             ask_output += flashcards[current_card]["front"]
