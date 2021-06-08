@@ -35,9 +35,9 @@ class LaunchRequestHandler(AbstractRequestHandler):
         return ask_utils.is_request_type("LaunchRequest")(handler_input)
 
     def handle(self, handler_input: HandlerInput):
-        global categories
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
+        session = handler_input.request_envelope.session
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
         headers = {'Authorization': 'Bearer ' + handler_input.request_envelope.session.user.access_token}
         response = requests.get(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, headers=headers)
@@ -45,7 +45,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
         user_id = response.json["user_id"]
-        init_session_attributes_fot_user        
+        init_session_attributes_for_user()      
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
