@@ -44,7 +44,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         if not response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
-        user_id = response.json["user_id"]
+        user_id = response.json()["user_id"]
         init_session_attributes_for_user(session, user_id)
         session_attr = session.attributes
 
