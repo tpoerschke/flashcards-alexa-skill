@@ -117,7 +117,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
 
         return response_builder.response
     
-    def __start_test(self, speak_output):
+    def __start_test(self, speak_output, session):
         global test_started, current_card
         current_card = 0
         test_started = True
