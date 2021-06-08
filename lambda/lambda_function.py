@@ -48,7 +48,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         init_session_attributes_for_user(session, user_id)
         session_attr = session.attributes
 
-        response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user:id"]))
+        response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user_id"]))
         if response.ok:
             categories = response.json()
         else:
