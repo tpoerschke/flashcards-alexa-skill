@@ -26,8 +26,6 @@ USER_ID_FOR_TOKEN = "/users/exchange-token"
 CATEGORIES_BY_USER = "/users/{uid}/categories"
 FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 
-USER_ID = 4
-
 GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut."
 
 class LaunchRequestHandler(AbstractRequestHandler):
