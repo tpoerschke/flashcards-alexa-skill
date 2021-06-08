@@ -44,6 +44,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input: HandlerInput):
         global categories
+        
         # type: (HandlerInput) -> Response
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
@@ -80,7 +81,7 @@ class StartTestIntentHandler(AbstractRequestHandler):
         )
 
 class CaptureCategoryIntentHandler(AbstractRequestHandler):
-    """Handler for Hello World Intent."""
+    """Handler zum Starten eines Tests. Dazu wird die Kategorie angefordert."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         return ask_utils.is_intent_name("CaptureCategoryIntent")(handler_input)
