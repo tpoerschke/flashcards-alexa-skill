@@ -78,7 +78,7 @@ class StartTestIntentHandler(AbstractRequestHandler):
         )
 
 class CaptureCategoryIntentHandler(AbstractRequestHandler):
-    """Handler for Hello World Intent."""
+    """Handler zum Starten eines Tests. Dazu wird die Kategorie angefordert."""
     def can_handle(self, handler_input):
         # type: (HandlerInput) -> bool
         return ask_utils.is_intent_name("CaptureCategoryIntent")(handler_input)
