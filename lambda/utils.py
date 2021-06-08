@@ -9,3 +9,7 @@ def init_session_attributes_for_user(session, user_id):
     
 def get_session(handler_input):
     return handler_input.request_envelope.session
+    
+def do_get_request(full_url, session):
+    headers = {'Authorization': 'Bearer ' + session.user.access_token}
+    return requests.get(full_url, headers=headers)
