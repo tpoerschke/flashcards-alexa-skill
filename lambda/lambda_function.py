@@ -104,7 +104,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
                 response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
-                flashcards = response.json()   
+                session.attributes["flashcards"] = response.json()   
                 if len(flashcards) == 0:
                     speak_output += " Oh oh... Leider gibt es keine Karten in dieser Kategorie."
                 else:
