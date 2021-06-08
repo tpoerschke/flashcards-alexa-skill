@@ -41,7 +41,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
         headers = {'Authorization': 'Bearer ' + session.user.access_token}
         response = requests.get(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, headers=headers)
-        if !response.ok:
+        if not response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
         user_id = response.json["user_id"]
