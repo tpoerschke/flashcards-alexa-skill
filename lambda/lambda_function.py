@@ -50,6 +50,8 @@ class LaunchRequestHandler(AbstractRequestHandler):
         response = requests.get(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, headers=headers)
         if !response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
+            
+        
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
