@@ -16,7 +16,7 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
-from utils import init_session_attributes_for_user, get_session
+from utils import init_session_attributes_for_user, get_session, do_get_request
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -39,8 +39,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
         session = get_session(handler_input)
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
-        headers = {'Authorization': 'Bearer ' + session.user.access_token}
-        response = requests.get(BACKEND_BASE_URL + USER_ID_FOR_TOKEN, headers=headers)
+        response = do_get_request(BACKEND_BASE_URL + USER_ID_FOR_TOKEN)
         if not response.ok:
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
@@ -49,7 +48,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
         session_attr = session.attributes
         logger.info("SESSION_ATTR: " + str(session_attr))
         
-        response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user_id"]))
+        response = do_get_request(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=session_attr["user_id"]))
         if response.ok:
             session_attr["categories"] = response.json()
         else:
@@ -102,7 +101,7 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
             user_input_is_category = all(map(lambda part: True if part in cat_title else False, category_slot.split()))
             if user_input_is_category:
                 speak_output = "Alles klar, ich werde dich in der Kategorie " + category_slot + " testen."
-                response = requests.get(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
+                response = do_get_request(BACKEND_BASE_URL + FLASHCARDS_BY_CATEGORY.format(cid=category["id"]))
                 if not response.ok:
                     return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response 
                 session.attributes["flashcards"] = response.json()   
