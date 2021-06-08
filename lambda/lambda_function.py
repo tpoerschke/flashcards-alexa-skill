@@ -21,8 +21,6 @@ from .utils import init_session_attributes_fot_user
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
-CONFIG = yaml.load(open("config.yml", "r"))
-
 BACKEND_BASE_URL = "https://c308d87f8482.ngrok.io"
 USER_ID_FOR_TOKEN = "/users/exchange-token"
 CATEGORIES_BY_USER = "/users/{uid}/categories"
@@ -31,11 +29,6 @@ FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 USER_ID = 4
 
 GENERIC_ERROR_MESSAGE = "Leider ist ein unerwarteter Fehler aufgetreten. Versuche es später erneut."
-
-categories = []
-flashcards = []
-current_card = 0
-test_started = False
 
 class LaunchRequestHandler(AbstractRequestHandler):
     """Handler for Skill Launch."""
