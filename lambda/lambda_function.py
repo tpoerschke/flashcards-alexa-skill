@@ -16,7 +16,7 @@ from ask_sdk_core.handler_input import HandlerInput
 
 from ask_sdk_model import Response
 
-from .utils import init_session_attributes_fot_user
+from .utils import init_session_attributes_for_user
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -45,7 +45,7 @@ class LaunchRequestHandler(AbstractRequestHandler):
             return handler_input.response_builder.speak(GENERIC_ERROR_MESSAGE).response
             
         user_id = response.json["user_id"]
-        
+        init_session_attributes_fot_user        
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
