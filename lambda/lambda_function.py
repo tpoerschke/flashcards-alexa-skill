@@ -151,7 +151,7 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
             ask_output += flashcards[current_card]["front"]
         
         response_builder = handler_input.response_builder.speak(speak_output)
-        if test_started:
+        if session_attr["test_started"]:
             response_builder = response_builder.ask(speak_output)
         
         return response_builder.response
