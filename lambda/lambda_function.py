@@ -121,8 +121,8 @@ class CaptureCategoryIntentHandler(AbstractRequestHandler):
         session_attr = session.attributes
         session_attr["current_card"] = 0
         session_attr["test_started"] = True
-        speak_output += " Los geht's. Hier kommt die erste Frage: " + flashcards[current_card]["front"]
-        ask_output = flashcards[current_card]["front"]
+        speak_output += " Los geht's. Hier kommt die erste Frage: " + session.attributes["flashcards"][current_card]["front"]
+        ask_output = session.attributes["flashcards"][current_card]["front"]
         return speak_output, ask_output
 
 class ShowCardBackIntentHandler(AbstractRequestHandler):
@@ -132,8 +132,8 @@ class ShowCardBackIntentHandler(AbstractRequestHandler):
         return ask_utils.is_intent_name("ShowCardBackIntent")(handler_input) and test_started
 
     def handle(self, handler_input):
-        global current_card, test_started
         # type: (HandlerInput) -> Response
+        session = get_session(handler_input)
         ask_output = ""
         speak_output = "Okay, hier kommt die Antwort: " + flashcards[current_card]["back"]
         current_card += 1
