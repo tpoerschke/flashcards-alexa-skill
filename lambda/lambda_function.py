@@ -251,7 +251,7 @@ class CatchAllExceptionHandler(AbstractExceptionHandler):
         # type: (HandlerInput, Exception) -> Response
         logger.error(exception, exc_info=True)
 
-        speak_output = "Sorry, I had trouble doing what you asked. Please try again."
+        speak_output = "Sorry, ich habe Schwierigkeiten, deine Anfrage zu verarbeite. Bitte versuche es erneut."
 
         return (
             handler_input.response_builder
