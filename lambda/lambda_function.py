@@ -21,7 +21,8 @@ logger.setLevel(logging.INFO)
 
 CONFIG = yaml.load(open("config.yml", "r"))
 
-BACKEND_BASE_URL = https://c308d87f8482.ngrok.io
+BACKEND_BASE_URL = "https://c308d87f8482.ngrok.io"
+USER_ID_FOR_TOKEN = "/users/exchange-token"
 CATEGORIES_BY_USER = "/users/{uid}/categories"
 FLASHCARDS_BY_CATEGORY  = "/categories/{cid}/flashcards"
 
@@ -42,12 +43,11 @@ class LaunchRequestHandler(AbstractRequestHandler):
 
     def handle(self, handler_input: HandlerInput):
         global categories
-        
-        # type: (HandlerInput) -> Response
         speak_output = "Willkommen zu Flashcards. Ich kann dich abfragen. Sage dazu einfach \"Starte einen Test\""
 
         # Der Access Token sollte immer vorhanden sein, da der Nutzer den Account ja verlinken muss
         header = {'Authorization': 'Bearer ' + handler_input.request_envelope.session.user.access_token}
+        requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
 
         response = requests.get(BACKEND_BASE_URL + CATEGORIES_BY_USER.format(uid=USER_ID))
         if response.ok:
