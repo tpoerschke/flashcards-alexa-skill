@@ -12,4 +12,4 @@ def get_session(handler_input):
     
 def do_get_request(full_url, session):
     headers = {'Authorization': 'Bearer ' + session.user.access_token}
-    return requests.get(full_url), headers=headers)
+    return requests.get(full_url, headers=headers)
